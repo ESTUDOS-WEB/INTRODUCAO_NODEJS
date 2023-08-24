@@ -1,3 +1,3 @@
 module.exports = {
-    NF: require("./NF").router
+    Notas: require("./Notas").router
 }
