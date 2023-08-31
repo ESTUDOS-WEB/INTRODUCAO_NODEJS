@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", (req, res, next) => {
   try {
-    res.json(banco.notas);
+    res.json(banco.produtos);
   } catch (error) {
     next(error);
   }
@@ -14,9 +14,9 @@ router.get("/", (req, res, next) => {
 router.get("/:id", (req, res, next) => {
   try {
     const id = req.params.id;
-    const nota = banco.notas.filter((i) => i.id.toString() === id);
+    const produto = banco.produtos.filter((i) => i.id.toString() === id);
 
-    if (nota.length > 0) res.json(nota);
+    if (produto.length > 0) res.json(produto);
     else res.status(404).json({ messagem: "Conteudo não foi encontrado." });
   } catch (error) {
     next(error);
@@ -25,16 +25,15 @@ router.get("/:id", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
   try {
-    const nota = req.body;
+    const produto = req.body;
     let id = 0;
-    banco.notas.forEach( i => {
+    banco.produtos.forEach( i => {
       if(i.id > id) id = i.id;
     });
-    nota.id = (id + 1);
+    produto.id = (id + 1);
 
-    console.log(nota.id);
 
-    banco.notas.push(nota);
+    banco.produtos.push(produto);
     res.status(201).json({ messagem: "Cadastrado com sucesso!" });
   } catch (error) {
     next(error);
@@ -43,14 +42,14 @@ router.post("/", (req, res, next) => {
 
 router.put("/:id", (req, res, next) => {
   try {
-    const nota = req.body;
+    const produto = req.body;
     const id = req.params.id;
-    const idX = banco.notas.findIndex((i) => i.id.toString() === id);
+    const idX = banco.produtos.findIndex((i) => i.id.toString() === id);
 
-    nota.id = id;
+    produto.id = id;
 
     if (idX > -1) {
-      banco.notas[idX] = nota;
+      banco.produtos[idX] = produto;
       res.json({ messagem: "Atualizado com sucesso!" });
     } else res.status(404).json({ messagem: "Conteudo não foi encontrado." });
   } catch (error) {
@@ -61,9 +60,9 @@ router.put("/:id", (req, res, next) => {
 router.delete("/:id", (req, res, next) => {
   try {
     const id = req.params.id;
-    const idX = banco.notas.findIndex((i) => i.id.toString() === id);
+    const idX = banco.produtos.findIndex((i) => i.id.toString() === id);
 
-    banco.notas.splice(idX, 1);
+    banco.produtos.splice(idX, 1);
 
     if (idX > -1) res.status(204).end();
     else res.status(404).json({ messagem: "Conteudo não foi encontrado." });
